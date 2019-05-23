@@ -1,6 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
 from sensorController import *
+from logger import *
 
 METRIC = 'CPU metric'
 
@@ -8,16 +9,18 @@ sched = BlockingScheduler()
 
 @sched.scheduled_job('interval', seconds=1800)
 def get_sensors_job():
+	logger = Logger()
+
 	status, sensors = getActiveSensors()
 	if (status == requests.codes.ok):
-		print(sensors['active_sensors'])
+		logger.logActiveSensors(sensors)
 	if (status == requests.codes.not_found):
-		print(status)
+		logger.logError(status)
 		
 	status, sensors = getMostLoadedSensors(METRIC)
 	if (status == requests.codes.ok):
-		print(sensors['top_10'])
+		logger.logMostLoadedSensors(sensors)
 	if (status == requests.codes.not_found):
-		print(status)
+		logger.logError(status)
 
 sched.start()
