@@ -1,6 +1,7 @@
 import sys
 import time
 import controller
+import logger
 
 def sort_by_load(value):
 	return value[3]
