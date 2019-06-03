@@ -2,7 +2,7 @@ import sys
 import time
 from controller import Controller
 
-def sortByLoad(value):
+def sort_by_load(value):
 	return value[3]
 
 def parse_int(str, fallback):
@@ -33,24 +33,24 @@ def find_added_hosts(prev_hosts, host_names_set):
 			diff_strs.append(f"Host appeared! Host name: {curr}")
 	return diff_strs
 
-def getHostNames(monitor_addr):
-	status, hosts = Controller.getMeasurements(monitor_addr)
+def get_host_hames(monitor_addr):
+	status, hosts = Controller.get_measurements(monitor_addr)
 	hosts_set = set()
 	for host in hosts:
 		hosts_set.add(host["host_name"])
 	return hosts_set
 
-def retrieveAllExistingMetricsForMonitor(monitor_addr):
-	status, streams = Controller.getMeasurements(monitor_addr)
+def retrieve_all_existing_metrics_for_monitor(monitor_addr):
+	status, streams = Controller.get_measurements(monitor_addr)
 	metrics_set = set()
 	for stream in streams:
 		metrics_set.add(stream["metric"])
 	return list(metrics_set)
 	
-def retrieveAllHostsPerMonitor(monitor_addr):
-	status, measurement_streams = Controller.getMeasurements(monitor_addr)
+def retrieve_all_hosts_per_monitor(monitor_addr):
+	status, measurement_streams = Controller.get_measurements(monitor_addr)
 	host_list = []
-	host_names_set = getHostNames(monitor_addr)
+	host_names_set = get_host_hames(monitor_addr)
 	for host_name in host_names_set:
 		stream_list = []
 		for stream in measurement_streams:
@@ -70,7 +70,7 @@ def build_rank(monitor_addr, host_list, metric, interval):
 				unit = stream["unit"]
 				platform = stream["platform"]
 				current_time = time.time()
-				status, measurements_data = Controller.getMeasurementForSensor(monitor_addr, sensor_id, 10, current_time - interval, current_time)
+				status, measurements_data = Controller.get_measurement_for_sensor(monitor_addr, sensor_id, 10, current_time - interval, current_time)
 				measurement_list = measurements_data["measurements"]
 				if not len(measurement_list) == 0:	
 					value = measurement_list[0]["value"]
@@ -78,10 +78,10 @@ def build_rank(monitor_addr, host_list, metric, interval):
 	active_hosts = []
 	for rank_elem in current_rank:
 		active_hosts.append(rank_elem[0])
-	current_rank.sort(key = sortByLoad, reverse = True)
+	current_rank.sort(key = sort_by_load, reverse = True)
 	return current_rank[:10], active_hosts
 	
-def prepareMonitors():
+def prepare_monitors():
 	monitors = []
 	for monitor_addr in sys.argv[2:]:
 		monitors.append(monitor_addr)

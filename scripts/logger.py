@@ -1,6 +1,6 @@
 class Logger:
 
-	def logActiveSensors(sensors):
+	def log_active_aensors(sensors):
 		update_timestamp = sensors['update_timestamp']
 		sensor_array = sensors['active_sensors']
 		log_message = ""
@@ -13,7 +13,7 @@ class Logger:
 			log_message += log_record
 		print(log_message)
 
-	def logMostLoadedSensors(sensors):
+	def log_most_loaded_sensors(sensors):
 		metric = sensors['metric']
 		log_message = ""
 		log_header = f"Top 10 most loaded sensors using {metric} metric:\n"
@@ -28,7 +28,7 @@ class Logger:
 			log_message += log_record
 		print(log_message)
 		
-	def logRank(arr, metric):
+	def log_rank(arr, metric):
 		log_message = ""
 		log_header = f"\tTop 10 most loaded hosts using {metric} metric:\n"
 		log_message += log_header
@@ -45,15 +45,15 @@ class Logger:
 			log_message += log_record
 		print(log_message)
 		
-	def logMonitorHeader(monitor_addr):
+	def log_monitor_header(monitor_addr):
 		log_message = f"Ranks for monitor {monitor_addr}:"
 		print(log_message)
 		
-	def logError(status):
+	def log_error(status):
 		log_message = "Error: "
 		log_message += status
 		print(log_message)
 		
-	def logMultipleMessages(messages):
+	def log_multiple_messages(messages):
 		for message in messages:
 			print(message)
