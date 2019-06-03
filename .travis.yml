@@ -18,7 +18,7 @@ script:
 deploy: 
   provider: script 
   script: 
-    heroku container:push web --app automatic-client-prod;
-    heroku container:release web --app automatic-client-prod;
+    heroku container:push worker --app automatic-client-prod;
+    heroku container:release worker --app automatic-client-prod;
   on: 
     branch: master
