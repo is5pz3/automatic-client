@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY . code
 WORKDIR code
 
-CMD python scripts/helloWorld.py
+CMD python scripts/app.py

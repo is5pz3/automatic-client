@@ -1,7 +1,20 @@
 sudo: required
 language: python
 python:
-- '3.6'
+  - '3.6'
+services:
+  - docker
 
+before_install: 
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh 
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 script:
-- python tests/tests.py
+  - python tests.py
+
+deploy: 
+  provider: script 
+  script: 
+    heroku container:push web --app automatic-client-prod;
+    heroku container:release web --app automatic-client-prod;
+  on: 
+    branch: master
