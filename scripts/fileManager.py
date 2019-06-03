@@ -1,6 +1,10 @@
 class FileManager:
 
 	def read_hosts_from_temp(filename, mode):
+		try:
+			f = open(filename, 'r')
+		except (FileNotFoundError, IOError):
+			f = open(filename, 'w+')
 		f = open(filename,mode)
 		prev_hosts = []
 		if f.mode == mode:
