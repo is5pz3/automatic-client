@@ -10,7 +10,7 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 script:
-  - python tests/tests.py
+  - python scripts/tests.py
 
 deploy: 
   provider: script 
