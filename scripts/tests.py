@@ -8,8 +8,6 @@ import controller
 import io
 import sys
 
-import requests
-
 class Test(unittest.TestCase):
 	
 	def test_find_removed_hosts(self):
