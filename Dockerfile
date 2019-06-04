@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY . code
 WORKDIR code
 
-CMD python scripts/app.py 20 https://monitor-prodd.herokuapp.com
+CMD python scripts/app.py 20 10 https://monitor-prodd.herokuapp.com

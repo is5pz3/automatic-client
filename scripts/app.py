@@ -12,7 +12,7 @@ import operations
 
 DEFAULT_INTERVAL = 10
 
-interval, monitors = operations.check_command_line_args()
+interval, activity_intervals, monitors = operations.check_command_line_args()
 
 sched = BlockingScheduler()
 @sched.scheduled_job('interval', seconds = interval)
@@ -30,7 +30,7 @@ def automatic_client_job():
 			filename = "temp/temp_" + str(monitor_index) + "_" + metric + ".txt"
 			prev_hosts = file_operations.read_hosts_from_temp(filename, "r")
 		
-			rank, active_hosts = operations.build_rank(monitor_addr, host_list, metric, interval)
+			rank, active_hosts = operations.build_rank(monitor_addr, host_list, metric, activity_intervals)
 			logger.log_rank(rank, metric)
 			host_names_set = set(active_hosts)
 			
@@ -38,6 +38,11 @@ def automatic_client_job():
 			add_strs = compare_operations.find_added_hosts(prev_hosts, host_names_set)
 			logger.log_multiple_messages(rem_strs)
 			logger.log_multiple_messages(add_strs)
-			file_operations.write_hosts_to_temp(host_names_set, filename,"w+")	
+			file_operations.write_hosts_to_temp(host_names_set, filename,"w+")
+			logger.log_separator(1)
+			
+		logger.log_separator(1)
+			
+	logger.log_separator(4)
 	
 sched.start()

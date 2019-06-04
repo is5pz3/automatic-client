@@ -94,12 +94,17 @@ def build_rank(monitor_addr, host_list, metric, interval):
 				sensor_id = stream["sensor_id"]
 				unit = stream["unit"]
 				platform = stream["platform"]
-				current_time = time.time()
+				current_time = round(time.time())
 				status, measurements_data = controller.get_measurement_for_sensor(monitor_addr, sensor_id, 10, current_time - interval, current_time)
-				measurement_list = measurements_data["measurements"]
-				if not len(measurement_list) == 0:	
-					value = measurement_list[0]["value"]
-					current_rank.append([host_name, sensor_id, platform, value, unit, metric])
+				if isinstance(measurements_data, list):
+					if not len(measurements_data) == 0:
+						value = measurements_data[0]["value"]
+						current_rank.append([host_name, sensor_id, platform, value, unit, metric])
+				elif isinstance(measurements_data, dict):
+					measurement_list = measurements_data["measurements"]
+					if not len(measurement_list) == 0:	
+						value = measurement_list[0]["value"]
+						current_rank.append([host_name, sensor_id, platform, value, unit, metric])
 	active_hosts = []
 	for rank_elem in current_rank:
 		active_hosts.append(rank_elem[0])
@@ -113,7 +118,7 @@ def prepare_monitors():
 		monitors: (list) List of monitor addresses .
 	"""
 	monitors = []
-	for monitor_addr in sys.argv[2:]:
+	for monitor_addr in sys.argv[3:]:
 		monitors.append(monitor_addr)
 	return monitors
 	
@@ -125,9 +130,10 @@ def check_command_line_args():
 		interval: (int) Time between each execution of main algorithm.
 		monitors: (list) List of monitor addresses.
 	"""
-	if len(sys.argv) < 2:
+	if len(sys.argv) < 3:
 		logger.log_error("Not enough parameters provided.")
 		sys.exit()
-	interval = parse_int(sys.argv[1], 100)
+	interval = parse_int(sys.argv[1], 150)
+	activity_interval = parse_int(sys.argv[2], 120)
 	monitors = prepare_monitors()
-	return interval, monitors
+	return interval, activity_interval, monitors

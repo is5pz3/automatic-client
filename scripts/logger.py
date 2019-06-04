@@ -17,6 +17,11 @@ def log_active_sensors(sensors):
 	print(log_message)
 
 def log_most_loaded_sensors(sensors):
+	""" Logs most loaded sensors
+	
+	Args:
+		sensors: Array of sensors
+	"""
 	metric = sensors['metric']
 	log_message = ""
 	log_header = f"Top 10 most loaded sensors using {metric} metric:\n"
@@ -81,3 +86,9 @@ def log_multiple_messages(messages):
 	"""
 	for message in messages:
 		print(message)
+		
+def log_separator(height):
+	""" Logs separator between iterations."""
+	for i in range (height):
+		print()
+	
