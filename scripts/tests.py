@@ -10,10 +10,6 @@ import sys
 
 class Test(unittest.TestCase):
 	
-	def test_should_fail(self):
-		print("This test should fail\n")
-		self.assertEqual(0, 1)
-	
 	def test_find_removed_hosts(self):
 		print("Starting find_removed_hosts test\n")
 		
